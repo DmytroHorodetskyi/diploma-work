@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon"  href="{{url_for('static', filename='images/icon.png')}}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/result.css')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+              src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <title>Результати обчислення</title>
+</head>
+<body>
+    <section class="container">
+
+        {% if kernel and func %}
+            <header>
+                <br>
+                <h1>Результат</h1>
+            </header>
+            <p> Ви ввели наступне рівняння: </p>
+            <p> \[y({{x1}}) = {{lamb}}\cdot\int_{ {{a}} }^{ {{b}} } ({ {{kernel}} })\cdot y({{x2}}) d{{x2}} +
+                { {{func}} }\] </p>
+            <p> Задана точність \(\delta\) : \({{delta}}\) </p>
+            {% if alpha != 0 %}
+                <p> Максимум модуля ядра на заданій області: \(|K({{x1}}, {{x2}})| \le {{m}}\) </p>
+                <p> Значення коефіцієнта стиску: \(\alpha =\lambda\cdot m\cdot(b-a) = {{alpha}}\) </p>
+            {% endif %}
+            {% if sol %}
+                <p> Значення коефіцієнта a: \(a = {{a_param}}\)</p>
+                <p> Кількість ітерацій, необхідна для досягнення заданої точності: \(n = {{n}} \)</p>
+                {% if delta_res == -1 %}
+                    <p> Було знайдено точний аналітичний розв'язок.</p>
+                {% else %}
+                    <p> Похибка обчислень: \(\delta = {{delta_res}}\)</p>
+                {% endif %}
+                <div style="overflow-x:auto;">Результуюча функція: \({{function}}\)</div>
+                <br>
+                {% if n < 25 %}
+                    <p> Для того, щоб переглянути детальний розв'язок даного інтегрального рівняння та безпосередньо
+                        ітераційну процедуру, натисніть <a id="solve" href="{{ url_for('solution') }}"> <b> сюди. </b>
+                        </a> </p>
+                {% endif %}
+                <p> Графік розв'язку інтегрального рівняння на області його визначення:</p>
+                <div class="graph">
+
+                    <img src="data:image/png;base64,{{ result }}">
+                </div>
+            {% else %}
+<!--                коэффициент сжатия больше 1-->
+                {% if alpha >= 1 %}
+                    <h6>{{msg}}</h6>
+                    <p>Для введенного інтегрального рівняння не виконуються умови збіжності і не може бути застосована
+                    ітеративна процедура методу стискаючих відображень. Для того, щоб даний метод був застовний, можна
+                    спробувати виконати наступні дії:</p>
+                    <ul>
+                      <li>Зменшити значення параметру \(\lambda\). </li>
+                      <li>Зменшити інтервал інтегрування \([a, b]\)</li>
+                    </ul>
+<!--                деление на ноль-->
+                {% elif alpha == 0 %}
+                    <header>
+                        <br>
+                        <h1>Помилка!</h1>
+                        <h6>{{msg}}</h6>
+                        <br>
+
+                    </header>
+
+                    <p> Перевірте ваші дані та спробуйте ще раз. Типові помилки при вводі: </p>
+                    <ul>
+                        <li>Нулі знаменника ядра чи довільної функції знаходяться в інтервалі інтегрування,
+                            наприклад:
+                            \[K(x, y) = \frac{1}{x^2}, \varphi(x) = x, інтервал [a, b] = [0, 1]\]
+                        </li>
+                        <li>Введена функція не визначена на заданому інтервалі інтегрування, наприклад:
+                            \[K(x, y) = \sqrt x, \varphi(x) = x, інтервал [a, b] = [-1, 1]\]
+                        </li>
+                    </ul>
+        <!--                деление на ноль-->
+                {% else %}
+                    {% if msg != 'Час обчислення вичерпався' %}
+                        <header>
+                            <br>
+                            <h1>Помилка!</h1>
+                            <h6>{{msg}}</h6>
+                            <br>
+                        </header>
+                        <p> Перевірте ваші дані та спробуйте ще раз. Типові помилки при вводі: </p>
+                        <ul>
+                            <li>Зазвичай дана помилка виникає за рахунок від'ємних ступенів введених поліномів, при
+                            інтегруванні яких можуть виникнути функції, що не є многочленами, наприклад:
+                                \[K(x, t) = x + \frac{t}{t^2 + 1}, \varphi(x) = x\]
+                                \[\int (x + \frac{t}{t^2 + 1})\cdot x dt = \frac{1}{2}\cdot x \cdot
+                                log(t^2 + 1) + 2\cdot t\cdot x \]
+                            </li>
+                            <li>Введена функція не визначена на заданому інтервалі інтегрування, наприклад:
+                                \[K(x, y) = \sqrt x, \varphi(x) = x, інтервал [a, b] = [-1, 1]\]
+                            </li>
+                        </ul>
+                    {% else %}
+                        <header>
+                            <br>
+                            <h1>{{msg}}</h1>
+                            <br>
+                        </header>
+                        <p> Знаходження розв'язку введеного інтегрального рівняння займає занадто багато часу.</p>
+                        <p> Інформація про процес розв'язання: </p>
+                        <p> Значення коефіцієнта a: \(a = {{last[1]}}\)</p>
+                        <p> Кількість виконаних ітерацій: \(n = {{last[2]}} \)</p>
+                        <p> Досягнута похибка обчислень: \(\delta = {{last[3]}}\)</p>
+                        <div style="overflow-x:auto;"> Останнє підраховане наближення: \({{last[0]}}\)</div>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+<!--        неправильно введённая функция -->
+        {% else %}
+            <header>
+                <br>
+                <h1>Помилка!</h1>
+                <h6>Програма не змогла розпізнати ваш запит.</h6>
+                <br>
+                <h6>{{msg}}</h6>
+            </header>
+
+            <p> Ви ввели неправильні дані. Перевірте їх та спробуйте ще раз.
+            Типові помилки при вводі: </p>
+            <ul>
+                <li>Незакриті дужки, порожні дужки або вставка дужок всередину числа чи формули, наприклад:
+                    \(0.)2\cdot x^2 \) </li>
+                <li>Пропущений знак множення "*".</li>
+                <li>Недостатня кількість операндів для виконання арифметичної операції.</li>
+            </ul>
+        {% endif %}
+        <br>
+        <div class="form-group text-center" id="submit_button">
+            <button type="submit" class="btn btn-primary " name='send' id='send'>
+                <a href="{{ url_for('index') }}">Назад </a>  </button>
+        </div>
+        <br>
+    </section>
+
+
+</body>
+</html>

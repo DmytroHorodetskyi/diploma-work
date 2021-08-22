@@ -1,0 +1,107 @@
+.graph {
+    text-align: center;
+}
+
+
+a:link {
+    color: white;
+    text-decoration: none;
+}
+
+a:visited {
+    color: white;
+}
+
+a:focus {
+    color: white;
+}
+
+a:hover {
+    color: white;
+}
+
+a:active {
+    color: white;
+}
+
+
+#solve:link {
+    color: black;
+    text-decoration: underline
+;
+}
+
+#solve:visited {
+    color: black;
+}
+
+#solve:focus {
+    color: black;
+}
+
+#solve:hover {
+    color: black;
+}
+
+#solve:active {
+    color: black;
+}
+
+
+section {
+    background-color:   white ;
+    padding-left: 75px !important;
+    padding-right: 75px !important;
+}
+
+body {
+    background-color: #0063B2FF ;
+}
+
+p {
+    font-family: 'Raleway',sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 32px;
+    margin: 0 0 24px;
+
+}
+
+li {
+    font-family: 'Raleway',sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 32px;
+
+}
+
+div {
+    font-family: 'Raleway',sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 32px;
+}
+
+h1 {
+    font-family: 'Raleway',sans-serif;
+    font-size: 35px;
+    font-weight: 750;
+    line-height: 40px;
+    margin: 0 0 24px;
+    text-align: center;
+    text-transform: uppercase;
+    }
+
+h6 {
+    text-align: center;
+    font-family: 'Raleway',sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 24px;
+    }
+
+.container1 {
+    border: 8px inset #5A789B;
+    border-radius: 21px;
+    background-color: #e8f4f8;
+}

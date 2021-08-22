@@ -1,0 +1,172 @@
+.form-group {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.text {
+    flex: 0 0 220px;
+
+}
+
+.container1 {
+    display: grid;
+    grid-template-columns: 25% 10% 10% 20%;
+    grid-gap: 15px;
+}
+
+.container2 {
+    display: grid;
+    grid-template-rows: repeat(6, auto);
+    grid-template-columns: repeat(5, auto));
+}
+
+
+#kernel{
+    grid-column: 1/6;
+}
+
+#func {
+    grid-column: 1/6;
+}
+
+#msg1 {
+    grid-column: 1/6;
+}
+
+#msg2 {
+    grid-column: 1/6;
+}
+
+#interval {
+    grid-column: 1/6;
+}
+
+#param {
+    grid-row: 6/7;
+    grid-column: 1/6;
+}
+
+#delta {
+    grid-row: 7/8;
+    grid-column: 1/6;
+}
+
+#submit_button {
+    grid-row: 8/9;
+    grid-column: 3/4;
+}
+
+#form2 {
+    visibility: hidden;
+    position: absolute;
+    top: -9999px;
+}
+
+a:link {
+    color: black;
+}
+
+a:visited {
+    color: black;
+}
+
+a:focus {
+    color: black;
+}
+
+a:hover {
+    color: black;
+}
+
+a:active {
+    color: black;
+}
+
+
+section {
+    background-color:   white ;
+    padding-left: 75px !important;
+    padding-right: 75px !important;
+}
+
+body {
+    background-color: #0063B2FF ;
+}
+
+p {
+    font-family: 'Raleway',sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 32px;
+    margin: 0 0 24px;
+
+}
+
+li {
+    font-family: 'Raleway',sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 32px;
+}
+
+.text {
+    font-family: 'Raleway',sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 26px;
+    padding-left: 35px;
+}
+
+#var {
+    font-family: 'Raleway',sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 32px;
+}
+
+span {
+    font-family: 'Raleway',sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 32px;
+}
+small {
+    font-family: 'Raleway',sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+}
+h1 {
+    font-family: 'Raleway',sans-serif;
+    font-size: 35px;
+    font-weight: 750;
+    line-height: 40px;
+    margin: 0 0 24px;
+    text-align: center;
+    text-transform: uppercase;
+    }
+
+h2 {
+    font-family: 'Raleway',sans-serif;
+    font-size: 30px;
+    font-weight: 750;
+    line-height: 36px;
+    margin: 0 0 24px;
+    text-align: center; }
+
+#int1{
+    white-space: nowrap;
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+}
+
+#int2{
+    white-space: nowrap;
+    margin-right: 30px !important;
+}
+
+#int3{
+    white-space: nowrap;
+    margin-right: 30px !important;
+}

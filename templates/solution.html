@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/result.css')}}">
+    <link rel="icon"  href="{{url_for('static', filename='images/icon.png')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+              src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <title>Детальний розв'язок</title>
+</head>
+<body>
+    <section class="container">
+        <header>
+            <br>
+            <h1>Детальний розв'язок</h1>
+        </header>
+        
+        <p> Ви ввели наступне рівняння: </p>
+        <p> \[y({{x1}}) = {{lamb}}\cdot\int_{ {{a}} }^{ {{b}} } ({ {{kernel}} })\cdot y({{x2}})  d{{x2}} + { {{func}} }\] </p>
+        <p>За початкове наближення візьмемо \(y_{0}({{x1}}) = \varphi({{x1}}) = 1\)</p>
+        <p>Будемо знаходити наближення до шуканої функції за наступною формулою: </p>
+        <p> \[y_{i+1}({{x1}}) = {{lamb}}\cdot\int_{ {{a}} }^{ {{b}} } ({ {{kernel}} })\cdot y_{i}({{x2}}) d{{x2}} +
+                { {{func}} }\]</p>
+        <br>
+        {% for i in range(1, n+1) %}
+        <div class="container1">
+            <br>
+            <h6>Ітерація №{{i}}</h6>
+            <div style="overflow-x:auto;">
+                \begin{align}
+                y_{ {{i}} }({{x1}}) & = {{lamb}}\cdot\int_{ {{a}} }^{ {{b}} } ({ {{kernel}} })\cdot
+
+                ({ {{funcs2[i-1]}} })  d{{x2}} + { {{func}} }  \\ \\
+                & = {{lamb}}\cdot\int_{ {{a}} }^{ {{b}} }  {{int_funcs[i-1]}}   d{{x2}} + { {{func}} } \\ \\
+                & = { {{integrals[i-1]}} } + { {{func}} } \\ \\
+                & = {{functions[i]}} \\ \\
+                \end{align}</div>
+
+            <div class="graph">
+                <img src="data:image/png;base64,{{ graphs[i-1] }}">
+            </div>
+            <br>
+        </div>
+        <br>
+        {% endfor %}
+        <div class="form-group text-center" id="submit_button">
+            <button type="submit" class="btn btn-primary " name='send' id='send'>
+                <a href="{{ url_for('get_data') }}">Назад </a>  </button>
+        </div>
+        <br>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon"  href="{{url_for('static', filename='images/icon.png')}}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/styles.css')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+              src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <title>Головна сторінка</title>
+</head>
+<body>
+    <section class="container">
+        <header>
+            <br>
+            <h1>Розв'язання інтегральних рівнянь Фредгольма</h1>
+            <br>
+        </header>
+        <div id="form1">
+            <form action="{{url_for('index')}}" method="post" id="name_form1">
+                <div class="container1">
+                    <div>
+                        <div id="var">Виберіть назви змінних:</div>
+                    </div>
+
+                    <div>
+                        <select class="form-control" id="first" name="first" required>
+                        {% for var in var1 %}
+                            <option value={{var}}>{{var}}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <select class="form-control" id="second" name="second" required>
+                            {% for var in var2 %}
+                                <option value={{var}}>{{var}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary" name='swap' id='swap'>
+                           Відправити  </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="msg"></div>
+        <br>
+        <div id="form2">
+            <form action="{{url_for('get_data')}}" method="post" id="name_form2">
+                <div class="container2">
+                    <div class="input-group mb-3" id="kernel">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="kern"></span>
+                        </div>
+                        <input type="text" class="form-control" name="kernel" id="kernel_input" placeholder="" required>
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                              title="Ядро інтегрального оператора">
+                            <button type="button" class="btn btn-secondary" data-toggle="tooltip"
+                                    data-placement="bottom" style="pointer-events: none;" disabled>?
+                            </button>
+                        </span>
+                    </div>
+                    <div class="input-group mb-3" id="msg1">
+                        <small id="smsg1"></small>
+                    </div>
+                    <div class="input-group mb-3" id="func">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="phi"></span>
+                        </div>
+                        <input type="text" class="form-control" name="func" id="func_input"  placeholder="{{names[0]}}"
+                               required>
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Вільний член">
+                            <button type="button" class="btn btn-secondary" data-toggle="tooltip"
+                                    data-placement="bottom" title="Вільний член" style="pointer-events: none;"
+                                    disabled> ? </button>
+                        </span>
+
+                    </div>
+                    <div class="input-group mb-3" id="msg2">
+                        <small id="smsg2"></small>
+                    </div>
+                    <div class="form-row" id="interval">
+                       <div id="int1" class="form-group col-md-3">
+                           <div class="text" >Інтервал інтегрування: від</div>
+                        </div>
+                       <div class="form-group col-md-2">
+                           <input type="number" class="form-control" name="a" value="0" placeholder="0" step="0.01"
+                                  id="a" required>
+                       </div>
+                        <div class="form-group col-md-1">
+                            <span>до</span>
+                       </div>
+                        <div class="form-group col-md-2">
+                            <input type="number" class="form-control" name="b" value="1" placeholder="1" step="0.01"
+                                   id="b" required>
+                        </div>
+                    </div>
+                    <div class="form-row" id="param">
+                       <div id="int2" class="form-group col-md-3">
+                           <div class="text" >Параметр \(\lambda \) </div>
+                        </div>
+                       <div class="form-group col-md-2">
+                           <input type="number" class="form-control" name="lambda" value="0.2" placeholder="0.2"
+                                  id="lambda" step="0.01" required>
+                       </div>
+                    </div>
+                    <div class="form-row" id="delta">
+                       <div id="int3" class="form-group col-md-3">
+                           <div class="text" >Точність обчислення \(\delta \) </div>
+                        </div>
+                       <div class="form-group col-md-2">
+                           <input type="number" class="form-control" name="delta" value="0.1" placeholder="0.1"
+                                  id="delta_in" step="0.00000001" max="0.99" min="0.00000001" required>
+                       </div>
+                    </div>
+                    <div class="form-group text-center" id="submit_button">
+                        <button type="submit" class="btn btn-primary " name='send' id='send'>
+                               Розв'язати рівняння  </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="guide">
+            <br>
+            <h2>Інструкція користувача</h2>
+            <p> Дана програма призначена для розв'язання неоднорідних лінійних рівнянь Фредгольма другого роду, де
+                \(K(x, t) \) та \(\varphi(x) \) являють собою степеневі функції:
+            </p>
+            <p> \[y(x) = \lambda\cdot\int_a ^b K(x, t)\cdot y(t)  dt + \varphi(x)\] </p>
+            <p> Якщо бажаєте отримати більш детальну інформацію про інтегральні рівняння Фредгольма другого роду
+            та метод стискуючих відображень, можете проглянути <a href="{{ url_for('theory') }}">
+                    <b>теоретичні відомості</b>. </a> </p>
+            <p> Для початку роботи необхідно обрати назви змінних та відправити їх.</p>
+            <p> При введенні функцій \(K(x, t) \) та \(\varphi(x) \) зверніть увагу на наступне:</p>
+            <ul>
+                <li>Програма розрізняє лише ті назви змінних, що були вказані раніше. </li>
+                <li>Не забувайте ставити знак множення між множниками!</li>
+                <li>Для піднесення в степінь можна використовувати знаки '^' та '**'.</li>
+                <li>Програма не призначена для розв'язання рівнянь, де \(K(x, t) \) та \(\varphi(x) \) не є
+                      многочленами та вважає всі інші функції, окрім многочленів невалідними.</li>
+                <li>Якщо в процесі розв'язання вининикає необхідність інтегрувати функцію, що не є степеневою,
+                програма повідомить про це та запропонує ввести інше рівняння (дана ситуація виникає в тому випадку,
+                коли вводяться поліноми з від'ємними степенями).</li>
+                <li>Показниково-степеневі функції (\(x^t \)) не розглядаються.</li>
+            </ul>
+            <p> Приклади правильно введених функцій: </p>
+             <ul>
+                <li><p>\(K(x, t) \) = x**2 + t**2</p>
+                    <p>\(\varphi(x) \) = x</p>
+                </li>
+                <li><p>\(K(x, t) \) = (0.2*x + 6*t**2)^2 + 2</p>
+                    <p>\(\varphi(x) \) = x^2</p>
+                </li>
+            </ul>
+        </div>
+        <br>
+        <br>
+        <br>
+    </section>
+
+    <script src="{{url_for('static', filename='js/validation.js')}}"></script>
+    <script src="{{url_for('static', filename='js/ajax_request.js')}}"></script>
+    <script src="{{url_for('static', filename='js/display.js')}}"></script>
+</body>
+</html>
